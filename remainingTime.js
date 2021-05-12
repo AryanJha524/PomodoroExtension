@@ -6,15 +6,36 @@ function grabButtons(){
 }
 
 function hideButtons() {
-    // removes the div the buttons are in
-    document.getElementById("time-select").remove();
+    document.getElementById("25min").remove();
+    document.getElementById("30min").remove();
 }
 
 
 function resetTimer(){
     // create buttons
+    var btn_25 = document.createElement("BUTTON");
+    var btn_30 = document.createElement("BUTTON");
     
+
+    btn_25.innerHTML = "25 minutes";
+    btn_30.innerHTML = "30 minutes";
+
+    // set class names and id for buttons
+    btn_25.className = "button";
+    btn_30.className = "button";
+    btn_25.id = "25min";
+    btn_30.id = "30min";
+
+    btn_25.value = '25';
+    btn_30.value = '30';
+
+    // add buttons back to document
+    var time_div = document.getElementById("time-select")
+    time_div.appendChild(btn_25);
+    time_div.appendChild(btn_30);
+
     // call addEventListener to Buttons
+    addEventListenerToButtons();
 }
 
 
@@ -30,10 +51,11 @@ function beginCountDown(startingTime) {
         var sec = Math.floor((countdown - (min * 60 * 1000)) / 1000);
 
         if (countdown <= 0) {
-            alert("Break Time");
             clearInterval(timer);
             // remove timer, re-add buttons
-            element.innerHTML = "";
+            element.innerHTML = "Break Time";
+            // add button to ask to start another study session
+            resetTimer();
             
         } else {
             if (sec < 10) {
@@ -61,7 +83,11 @@ function addEventListenerToButtons(){
 
 
 function setTimer(event) {
-    let time = event.target.value
+    // hide heading
+    var element = document.getElementById("countdown-timer")
+    element.innerHTML = "";
+
+    let time = event.target.value;
     hideButtons();
     beginCountDown(time);
 }
