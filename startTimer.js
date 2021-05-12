@@ -13,6 +13,9 @@ function setTimer(event) {
     if (choice == "True") {
         chrome.tabs.create({url: 'countdown.html'}) 
     }
+    else {
+        window.close()
+    }
 
 }
 

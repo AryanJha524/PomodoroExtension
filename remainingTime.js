@@ -1,18 +1,15 @@
-// import {time} from './setTimer.js';
-
+// TODO: add a break timer
 
 function grabButtons(){
     return document.getElementsByClassName("button");
 }
 
-function hideButtons() {
-    document.getElementById("25min").remove();
-    document.getElementById("30min").remove();
+function hideButtons(id1, id2) {
+    document.getElementById(id1).remove();
+    document.getElementById(id2).remove();
 }
 
-
-function resetTimer(){
-    // create buttons
+function createTimeButtons() {
     var btn_25 = document.createElement("BUTTON");
     var btn_30 = document.createElement("BUTTON");
     
@@ -33,15 +30,63 @@ function resetTimer(){
     var time_div = document.getElementById("time-select")
     time_div.appendChild(btn_25);
     time_div.appendChild(btn_30);
+}
+
+
+
+function resetTimer(){
+    // create buttons
+    createTimeButtons();
 
     // call addEventListener to Buttons
     addEventListenerToButtons();
 }
 
 
+function handleChoice(event) {
+    let choice = event.target.value;
+    hideButtons("break", "reset");
+
+    if (choice == 'break') {
+        beginCountDown(5); // default break time
+    }
+    else if (choice == 'reset') {
+        resetTimer();
+    }
+
+}
+
+
+function userChoice() {
+    // add button options to reset timer
+    var time_div = document.getElementById("time-select");
+    var breakBtn = document.createElement("BUTTON");
+    var resetBtn = document.createElement("BUTTON");
+    
+
+    breakBtn.innerHTML = "Start Break";
+    resetBtn.innerHTML = "Reset Study Timer";
+
+    // set class names and id for buttons
+    breakBtn.className = "button";
+    resetBtn.className = "button";
+    breakBtn.id = "break";
+    resetBtn.id = "reset";
+
+    breakBtn.value = 'break';
+    resetBtn.value = 'reset';
+
+    breakBtn.addEventListener("click", handleChoice);
+    resetBtn.addEventListener("click", handleChoice);
+
+    time_div.appendChild(breakBtn);
+    time_div.appendChild(resetBtn);
+
+
+}
+
 
 function beginCountDown(startingTime) {
-    // here goes code for making a timer
     var element = document.getElementById("countdown-timer")
 
     var countdown = parseInt(startingTime) * 60 * 1000; // time in milliseconds
@@ -53,9 +98,8 @@ function beginCountDown(startingTime) {
         if (countdown <= 0) {
             clearInterval(timer);
             // remove timer, re-add buttons
-            element.innerHTML = "Break Time";
-            // add button to ask to start another study session
-            resetTimer();
+            element.innerHTML = "Session Complete";
+            userChoice();
             
         } else {
             if (sec < 10) {
@@ -88,7 +132,7 @@ function setTimer(event) {
     element.innerHTML = "";
 
     let time = event.target.value;
-    hideButtons();
+    hideButtons("25min", "30min");
     beginCountDown(time);
 }
 
