@@ -1,9 +1,14 @@
-// TODO: add a break timer
+// TODO: add styling 
+// TODO: add counter of how make study sessions completed
+// TODO: add cycle session: choose between manual mode or sessions mode
+    // if session mode, just loop between break and study n amount of times 
+    // if "manual mode", keep as is, user clicks buttons
 
 function grabButtons(){
     return document.getElementsByClassName("button");
 }
 
+// change into loop and change input params to a single array of ids
 function hideButtons(id1, id2) {
     document.getElementById(id1).remove();
     document.getElementById(id2).remove();
